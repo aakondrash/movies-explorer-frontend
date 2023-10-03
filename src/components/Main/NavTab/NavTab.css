@@ -1,0 +1,62 @@
+.navtab__buttons {
+  z-index: 1;
+  margin: 0;
+  margin-top: 21px;
+}
+
+.navtab__register-button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: #ffffff;
+  margin: 0;
+  margin-right: 30px;
+  padding: 0;
+}
+
+.navtab__register-button:hover {
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.navtab__login-button {
+  width: 76px;
+  height: 32px;
+  background: #3ddc84;
+  border-radius: 3px;
+  border: none;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: #000000;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+}
+
+.navtab__login-button:hover {
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+@media screen and (min-width: 320px) and (max-width: 767px) {
+  .navtab__buttons {
+    margin-top: 24px;
+  }
+  .navtab__register-button {
+    font-size: 10px;
+    line-height: 16px;
+    margin-right: 14px;
+  }
+
+  .navtab__login-button {
+    width: 54px;
+    height: 26px;
+    font-size: 10px;
+    line-height: 16px;
+  }
+}
