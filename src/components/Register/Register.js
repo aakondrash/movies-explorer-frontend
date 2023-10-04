@@ -11,9 +11,9 @@ const Register = ({ onRegisterClick }) => {
   }
 
   return (
-    <section className="register">
+    <main className="register">
       <Link to="/" className="register__icon"></Link>
-      <h3 className="register__title">Добро пожаловать!</h3>
+      <h1 className="register__title">Добро пожаловать!</h1>
       <form name="register" className="register__form" onSubmit={handleSubmit}>
         <label className="register__field">
           <span className="register__caption">Имя</span>
@@ -48,6 +48,8 @@ const Register = ({ onRegisterClick }) => {
             type="password"
             required
             placeholder="Введите пароль"
+            minLength="2"
+            maxLength="30"
           />
         </label>
         <span className="register__error-span">
@@ -65,7 +67,7 @@ const Register = ({ onRegisterClick }) => {
           Войти
         </Link>
       </div>
-    </section>
+    </main>
   );
 }
 

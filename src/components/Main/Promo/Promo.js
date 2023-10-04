@@ -5,17 +5,25 @@ const Promo = () => {
           <h1 className="promo__title">
             Учебный проект студента факультета Веб-разработки.
           </h1>
-          <div className="promo__anchors"> 
-            <a className="promo__anchor" href="#about-project">
-              О проекте
-            </a>
-            <a className="promo__anchor" href="#techs">
-              Технологии
-            </a>
-            <a className="promo__anchor" href="#about-me">
-              Студент
-            </a>
-          </div>
+          <nav className="promo__anchors"> 
+            <ul className="promo__anchors-list">
+              <li className="promo__anchor-element">
+                <a className="promo__anchor" href="#about-project">
+                  О проекте
+                </a>
+              </li>
+              <li className="promo__anchor-element">
+                <a className="promo__anchor" href="#techs">
+                  Технологии
+                </a>
+              </li>
+              <li className="promo__anchor-element">
+                <a className="promo__anchor" href="#about-me">
+                  Студент
+                </a>
+              </li>
+            </ul>
+          </nav>
         </div>
       </section>
     );

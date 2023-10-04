@@ -4,10 +4,10 @@ import SearchForm from "./SearchForm/SearchForm";
 const Movies = ({ moviesList }) => {
   return (
     <>
-      <section className="movies">
+      <main className="movies">
         <SearchForm/>
         <MoviesCardList moviesList={moviesList} />
-      </section>
+      </main>
     </>
   );
 }

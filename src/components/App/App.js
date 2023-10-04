@@ -1,6 +1,6 @@
 import "./App.css";
 
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
 import React, { useState } from "react";
 
@@ -18,6 +18,8 @@ import Profile from "../Profile/Profile";
 import movie_image from "../../images/movie-template-picture.png";
 
 const App = () => {
+  const navigate = useNavigate();
+
   // const [currentUser, setCurrentUser] = useState({
   //   email: "",
   //   name: "",
@@ -122,7 +124,12 @@ const App = () => {
           } />
           <Route path="signin" element={<Login onLoginClick={setIsLoggedIn}/>} />
           <Route path="signup" element={<Register onRegisterClick={setIsLoggedIn}/>} />
-          <Route path="profile" element={<Profile/>} />
+          <Route path="profile" element={
+            <>
+              <Header isLoggedIn={isLoggedIn} isBurgerOpened={isBurgerOpened} onBurgerClick={onBurgerClick}/>
+              <Profile/>
+            </>
+          } />
           <Route path="movies" element={
             <>
               <Header isLoggedIn={isLoggedIn} isBurgerOpened={isBurgerOpened} onBurgerClick={onBurgerClick}/>
@@ -137,7 +144,7 @@ const App = () => {
               <Footer />
             </>
           } />
-          <Route path="*" element={<Page404/>} />
+          <Route path="*" element={<Page404 navigate={navigate}/>} />
         </Routes>
       </div>
     </CurrentUserContext.Provider>

@@ -2,7 +2,7 @@ const Portfolio = () => {
     return (
       <section className="portfolio">
         <ul className="portfolio__list">
-          Портфолио
+          <li className="portfolio__title">Портфолио</li>
           <li className="portfolio-item">
             <a
               href="https://github.com/aakondrash/how-to-learn"

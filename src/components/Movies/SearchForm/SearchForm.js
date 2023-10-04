@@ -3,7 +3,7 @@
 const SearchForm = () => {
 
   return (
-    <div className="search">
+    <section className="search">
       <form
         name="search-movie"
         className="search__container"
@@ -24,7 +24,7 @@ const SearchForm = () => {
       </form>
       <span className="search__input_invalid">
       </span>
-      <div className="search__filter">
+      <form className="search__filter">
         <label className="search__filter-container">
           <input
             className="search__filter-checkbox"
@@ -34,8 +34,8 @@ const SearchForm = () => {
           <span className="search__filter-toggle"></span>
           <span className="search__filter-caption">Короткометражки</span>
         </label>
-      </div>
-    </div>
+      </form>
+    </section>
   );
 }
 

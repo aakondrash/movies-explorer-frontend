@@ -10,35 +10,31 @@ const Burger = ({ isBurgerOpened, onBurgerClick }) => {
       ></button>
       <div className="burger__container">
         <NavLink
-          exact="true"
           to="/"
-          className={`navigation__film-link burger__link ${({ isActive }) => isActive ? "burger__link_active" : ""}`}
+          className={`burger__link ${({ isActive }) => isActive ? "burger__link_active" : ""}`}
           onClick={onBurgerClick}
         >
           Главная
         </NavLink>
         <NavLink
-          exact="true"
           to="/movies"
-          className={`navigation__film-link burger__link ${({ isActive }) => isActive ? "burger__link_active" : ""}`}
+          className={`burger__link ${({ isActive }) => isActive ? "burger__link_active" : ""}`}
           onClick={onBurgerClick}
         >
           Фильмы
         </NavLink>
         <NavLink
-          exact="true"
           to="/saved-movies"
-          className={`navigation__film-link burger__link ${({ isActive }) => isActive ? "burger__link_active" : ""}`}
+          className={`burger__link ${({ isActive }) => isActive ? "burger__link_active" : ""}`}
           onClick={onBurgerClick}
         >
           Сохранённые фильмы
         </NavLink>
-        <div className="navigation__account burger__account">
+        <div className="burger__account">
           <NavLink
-            exact="true"
             to="/profile"
             onClick={onBurgerClick}
-            className={"navigation__film-link"}
+            className={"burger__film-link"}
           >
             Аккаунт
           </NavLink>

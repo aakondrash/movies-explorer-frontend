@@ -11,7 +11,7 @@ const Login = ({ onLoginClick }) => {
   }
 
   return (
-    <section className="register">
+    <main className="register">
       <Link to="/">
         <p className="register__icon"></p>
       </Link>
@@ -38,6 +38,8 @@ const Login = ({ onLoginClick }) => {
             type="password"
             required
             placeholder="Введите пароль"
+            minLength="2"
+            maxLength="30"
           />
         </label>
         <span className="register__error-span">
@@ -55,7 +57,7 @@ const Login = ({ onLoginClick }) => {
           Регистрация
         </Link>
       </div>
-    </section>
+    </main>
   );
 }
 

@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  padding-top: 80px;
+  padding-top: 95px;
 }
 
 .search__container {
@@ -36,7 +36,7 @@
 
 .search__input:focus {
   outline: 1px solid #3ddc84;
-  transition: outline 2s ease;
+  transition: outline 0.5s ease;
 }
 
 .search__input_error {
@@ -93,7 +93,7 @@
 
 .search__filter-container {
   width: 156px;
-  height: 21px;
+  height: 16px;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -104,13 +104,19 @@
   width: 174px;
   height: 20px;
   position: absolute;
+  top: 1px;
   appearance: none;
   cursor: pointer;
 }
 
+.search__filter-checkbox:hover {
+  opacity: 0.6;
+  transition: background 0.4s ease;
+}
+
 .search__filter-checkbox::after {
   width: 36px;
-  height: 20px;
+  height: 14px;
   content: "";
   position: absolute;
   background-color: #ebebeb;
@@ -126,10 +132,10 @@
   margin: 0;
 }
 .search__filter-toggle {
-  width: 16px;
-  height: 16px;
+  width: 10px;
+  height: 10px;
   position: absolute;
-  left: 2px;
+  left: 4px;
   background-color: #ffffff;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   border-radius: 10px;
@@ -137,7 +143,7 @@
 }
 
 .search__filter-checkbox:checked + .search__filter-toggle {
-  left: 18px;
+  left: 22px;
 }
 
 .search__filter-checkbox:checked::after {
@@ -154,14 +160,15 @@
   }
 
   .search__filter {
-    margin-top: 22px;
-    padding-bottom: 39px;
+    margin-top: 23px;
+    padding-bottom: 42px;
   }
 }
 
 @media screen and (min-width: 320px) and (max-width: 767px) {
   .search {
     width: 91.25%;
+    padding-top: 95px;
   }
 
   .search__input {
@@ -176,12 +183,16 @@
   }
 
   .search__filter {
-    margin-top: 28px;
-    padding-bottom: 39px;
+    margin-top: 29px;
+    padding-bottom: 40px;
   }
 
   .search__filter-caption {
     font-size: 11px;
     line-height: 18px;
+  }
+
+  .search__filter-container {
+    width: 148px;
   }
 }

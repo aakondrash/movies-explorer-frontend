@@ -4,8 +4,8 @@ const Profile = () => {
 
   return (
     <>
-      <section className="profile">
-        <h2 className="profile__title">{`Привет, ${"Виталий"}!`}</h2>
+      <main className="profile">
+        <h1 className="profile__title">{`Привет, ${"Виталий"}!`}</h1>
         <div className="profile__container">
           <form
             name="edit-profile"
@@ -23,6 +23,7 @@ const Profile = () => {
                 name="name"
                 required
                 className="profile__input"
+                placeholder="Ваше имя"
               />
             </label>
             <span className="profile__error-span">
@@ -37,6 +38,7 @@ const Profile = () => {
                 required
                 pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                 className="profile__input"
+                placeholder="Ваша почта"
               />
             </label>
             <span className="profile__error-span">
@@ -52,7 +54,7 @@ const Profile = () => {
             Выйти из аккаунта
           </Link>
         </div>
-      </section>
+      </main>
     </>
   );
 }
