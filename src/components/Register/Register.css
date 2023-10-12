@@ -1,0 +1,191 @@
+.register {
+  max-width: 396px;
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.register__icon {
+  width: 41px;
+  height: 38px;
+  display: block;
+  background-image: url("../../images/logo.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  margin: 0;
+  margin-top: 70px;
+}
+
+.register__icon:hover {
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.register__title {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+  color: #ffffff;
+  margin: 0;
+  margin-top: 40px;
+}
+
+.register__form {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  margin-top: 40px;
+}
+
+.register__field {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.register__caption {
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #8b8b8b;
+  margin: 0;
+  padding: 0;
+  margin-bottom: 10px;
+}
+
+.register__input {
+  height: 46px;
+  background: #2F2F2F;
+  border: none;
+  border-radius: 9px;
+  outline: none;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  color: #ffffff;
+  margin: 0;
+  padding: 0;
+  padding-left: 15px;
+}
+
+.register__input:hover {
+  background: rgba(47, 47, 47, 0.6);
+  transition: background 0.4s ease;
+}
+
+.register__input:focus {
+  outline: 1px solid #3ddc84;
+}
+
+.register__input-error {
+  border-bottom: 1px solid red;
+}
+
+.register__input-error:focus {
+  border-bottom: 1px solid red;
+}
+
+.register__error-span {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 12px;
+  height: 20px;
+  color: red;
+}
+
+.register__submition-button {
+  height: 45px;
+  border: none;
+  background: #4285f4;
+  border-radius: 3px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: #ffffff;
+  padding: 0;
+  margin: 0;
+  margin-top: 71px;
+}
+
+.register__submition-button:hover {
+  opacity: 0.6;
+  transition: opacity 0.5s ease;
+}
+
+.register__submition-button-disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.register__signin {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  margin-top: 16px;
+}
+
+.register__signin > p {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #8b8b8b;
+  margin: 0;
+}
+
+.register__login-link {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #4285f4;
+  text-decoration: none;
+  margin: 0;
+  margin-left: 6px;
+}
+
+.register__login-link:hover {
+  opacity: 0.6;
+  transition: opacity 0.5s ease;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1279px) {
+  .register {
+    margin-top: 162px;
+  }
+}
+
+@media screen and (min-width: 320px) and (max-width: 767px) {
+  .register {
+    width: 81.25%;
+  }
+
+  .register__icon {
+    margin: 0 auto;
+    margin-top: 56px;
+  }
+
+  .register__title {
+    text-align: center;
+    margin-top: 50px;
+  }
+
+  .register__form {
+    margin-top: 80px;
+  }
+
+  .register__signin > p {
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  .register__login-link {
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  .register__submition-button {
+    font-size: 12px;
+    line-height: 15px;
+    margin-top: 158px;
+  }
+}

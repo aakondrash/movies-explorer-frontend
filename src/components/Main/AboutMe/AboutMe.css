@@ -1,0 +1,133 @@
+.about-me {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding-top: 112px;
+}
+
+.about-me__name {
+  text-align: left;
+  margin: 0;
+}
+
+.about-me__job {
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 20px;
+  color: #ffffff;
+  margin: 0;
+  margin-top: 18px;
+}
+
+.about-me__wrapper {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  margin-top: 66px;
+}
+
+.about-me__avatar {
+  object-fit: cover;
+  width: 270px;
+  max-height: 327px;
+  border-radius: 10px;
+  margin: 0;
+  margin-bottom: -300px;
+}
+.about-me__description {
+  max-width: 600px;
+  line-height: 22px;
+  margin: 0;
+  margin-top: 26px;
+}
+
+.about-me__github-link {
+  display: inline-block;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: #ffffff;
+  margin: 0;
+  margin-top: 99px;
+}
+
+.about-me__github-link:hover {
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1279px) {
+  .about-me {
+    width: 86.98%;
+    padding-top: 91px;
+  }
+
+  .about-me__name {
+    font-size: 40px;
+    line-height: 40px;
+  }
+
+  .about-me__job {
+    font-size: 12px;
+    line-height: 18px;
+    margin-top: 16px;
+  }
+
+  .about-me__description {
+    font-size: 12px;
+    line-height: 18px;
+    max-width: 364px;
+    margin-top: 20px;
+  }
+
+  .about-me__avatar {
+    max-width: 255px;
+    max-height: 307px;
+    margin-bottom: -284px;
+  }
+
+  .about-me__github-link {
+    margin-top: 87px;
+  }
+}
+
+@media screen and (min-width: 320px) and (max-width: 767px) {
+  .about-me {
+    width: 91.25%;
+    padding-top: 70px;
+  }
+
+  .about-me__name {
+    font-size: 30px;
+    line-height: 36px;
+  }
+
+  .about-me__job {
+    font-size: 11px;
+    line-height: 16px;
+    margin-top: 20px;
+  }
+
+  .about-me__description {
+    max-width: 100%;
+    font-size: 11px;
+    line-height: 16px;
+    margin-top: 20px;
+  }
+
+  .about-me__wrapper {
+    flex-direction: column;
+    margin-top: 60px;
+  }
+
+  .about-me__avatar {
+    width: 292px;
+    max-height: 352px;
+    margin: 0 auto;
+    margin-bottom: 40px;
+  }
+
+  .about-me__github-link {
+    margin-top: 40px;
+  }
+}
