@@ -1,14 +1,44 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 
 const Login = ({ onLoginClick }) => {
-
-  const navigate = useNavigate();
+  const [isFormDisabled, setIsFormDisabled] = useState(false);
+  const [formValues, setFormValues] = useState({
+    email: {
+      text: "",
+      isTextValid: false,
+      error: ""
+    },
+    password: {
+      text: "",
+      isTextValid: false,
+      error: ""
+    }
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onLoginClick(true);
-    navigate('/');
+    onLoginClick({
+      email: formValues.email.text,
+      password: formValues.password.text
+    });
   }
+
+  const handleInputChange = (e) => {
+    setFormValues((previousState) => ({
+      ...previousState,
+      [e.target.name]: {
+        ...formValues[e.target.name],
+        text: e.target.value,
+        isTextValid: e.target.validity.valid,
+        error: e.target.validationMessage
+      }
+    }));
+  }
+
+  useEffect(() => {
+    (formValues.email.isTextValid && formValues.password.isTextValid) ? setIsFormDisabled(false) : setIsFormDisabled(true);
+  }, [formValues]);
 
   return (
     <main className="register">
@@ -20,7 +50,9 @@ const Login = ({ onLoginClick }) => {
         <label className="register__field">
           <span className="register__caption">E-mail</span>
           <input
-            className={`register__input`}
+            className={`register__input ${formValues.email.error && "register__input-error"}`}
+            value={formValues.email.text || ""}
+            onChange={handleInputChange}
             name="email"
             type="email"
             required
@@ -28,12 +60,14 @@ const Login = ({ onLoginClick }) => {
           />
         </label>
         <span className="register__error-span">
-
+          {formValues.email.error}
         </span>
         <label className="register__field">
           <span className="register__caption">Пароль</span>
           <input
-            className={`register__input`}
+            className={`register__input ${formValues.password.error && "register__input-error"}`}
+            value={formValues.password.text || ""}
+            onChange={handleInputChange}
             name="password"
             type="password"
             required
@@ -43,11 +77,14 @@ const Login = ({ onLoginClick }) => {
           />
         </label>
         <span className="register__error-span">
-
+          {formValues.password.error}
         </span>
         <button
-          className={`register__submition-button login__submition-button`}
-          type="submit">
+          className={`register__submition-button login__submition-button ${
+            (formValues.email.isTextValid && formValues.password.isTextValid) ? "" : "register__submition-button-disabled"
+          }`}
+          type="submit"
+          disabled={isFormDisabled}>
           Войти
         </button>
       </form>

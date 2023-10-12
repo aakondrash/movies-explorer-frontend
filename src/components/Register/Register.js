@@ -1,14 +1,50 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 
 const Register = ({ onRegisterClick }) => {
-
-  const navigate = useNavigate();
+  const [isFormDisabled, setIsFormDisabled] = useState(false);
+  const [formValues, setFormValues] = useState({
+    name: {
+      text: "",
+      isTextValid: false,
+      error: ""
+    },
+    email: {
+      text: "",
+      isTextValid: false,
+      error: ""
+    },
+    password: {
+      text: "",
+      isTextValid: false,
+      error: ""
+    }
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onRegisterClick(true);
-    navigate('/');
+    onRegisterClick({
+      name: formValues.name.text,
+      email: formValues.email.text,
+      password: formValues.password.text
+    });
   }
+
+  const handleInputChange = (e) => {
+    setFormValues((previousState) => ({
+      ...previousState,
+      [e.target.name]: {
+        ...formValues[e.target.name],
+        text: e.target.value,
+        isTextValid: e.target.validity.valid,
+        error: e.target.validationMessage
+      }
+    }));
+  }
+
+  useEffect(() => {
+    (formValues.name.isTextValid && formValues.email.isTextValid && formValues.password.isTextValid) ? setIsFormDisabled(false) : setIsFormDisabled(true);
+  }, [formValues]);
 
   return (
     <main className="register">
@@ -18,7 +54,9 @@ const Register = ({ onRegisterClick }) => {
         <label className="register__field">
           <span className="register__caption">Имя</span>
           <input
-            className={`register__input`}
+            className={`register__input ${formValues.name.error && "register__input-error"}`}
+            value={formValues.name.text || ""}
+            onChange={handleInputChange}
             name="name"
             required
             minLength="2"
@@ -27,23 +65,29 @@ const Register = ({ onRegisterClick }) => {
           />
         </label>
         <span className="register__error-span">
+          {formValues.name.error}
         </span>
         <label className="register__field">
           <span className="register__caption">E-mail</span>
           <input
-            className={`register__input`}
+            className={`register__input ${formValues.email.error && "register__input-error"}`}
+            value={formValues.email.text || ""}
+            onChange={handleInputChange}
             name="email"
             type="email"
             required
-            placeholder="Введите E-mail"
+            placeholder="Введите email"
           />
         </label>
         <span className="register__error-span">
+          {formValues.email.error}
         </span>
         <label className="register__field">
           <span className="register__caption">Пароль</span>
           <input
-            className={`register__input`}
+            className={`register__input ${formValues.password.error && "register__input-error"}`}
+            value={formValues.password.text || ""}
+            onChange={handleInputChange}
             name="password"
             type="password"
             required
@@ -53,12 +97,15 @@ const Register = ({ onRegisterClick }) => {
           />
         </label>
         <span className="register__error-span">
+          {formValues.password.error}
         </span>
         <button
-          className={`register__submition-button`}
+          className={`register__submition-button ${
+            (formValues.name.isTextValid && formValues.email.isTextValid && formValues.password.isTextValid) ? "" : "register__submition-button-disabled"
+          }`}
           type="submit"
-        >
-          Зарегистрироваться
+          disabled={isFormDisabled}>
+          Войти
         </button>
       </form>
       <div className="register__signin">

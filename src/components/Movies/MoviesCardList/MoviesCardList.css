@@ -40,7 +40,7 @@
 }
 
 .movies-list__button-replacement {
-  margin-top: 105px;
+  margin-top: 113px;
 }
 
 @media screen and (min-width: 768px) and (max-width: 1279px) {
@@ -58,7 +58,7 @@
     margin-top: 46px;
   }
   .movies-list__button-replacement {
-    margin-top: 90px;
+    margin-top: 82px;
   }
 }
 
@@ -78,5 +78,9 @@
     width: 240px;
     margin-top: 60px;
     margin-bottom: 32px;
+  }
+
+  .movies-list__button-replacement {
+    margin-top: 128px;
   }
 }

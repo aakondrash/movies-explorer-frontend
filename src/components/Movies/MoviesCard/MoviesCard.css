@@ -59,6 +59,17 @@
   padding: 0;
 }
 
+.movie__saved-button {
+  display: inline;
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  object-fit: cover;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+}
+
 .movie__delete-button {
   display: none;
   position: absolute;

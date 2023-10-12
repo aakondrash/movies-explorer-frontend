@@ -31,12 +31,10 @@
 
 .search__input:hover {
   background: rgba(47, 47, 47, 0.6);
-  transition: background 0.4s ease;
 }
 
 .search__input:focus {
   outline: 1px solid #3ddc84;
-  transition: outline 0.5s ease;
 }
 
 .search__input_error {
@@ -44,7 +42,6 @@
 }
 
 .search__input_error:focus {
-  transition: outline 2s ease;
   outline: 1px solid red;
 }
 
@@ -75,7 +72,6 @@
 
 .search__button:hover {
   opacity: 0.6;
-  transition: opacity 0.3s ease;
 }
 
 .search__button_error {
