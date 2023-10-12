@@ -5,6 +5,8 @@
 Ссылка на пул-реквест: https://github.com/aakondrash/movies-explorer-frontend/pull/4
 
 (Frontend) Адрес домена, к которому можно обратиться по https: https://moviesexplorer.aakond.nomoredomainsrocks.ru/
+
 (Backend) Адрес домена, к которому можно обратиться по https: https://api.moviesexplorer.aakond.nomoredomainsrocks.ru/
+
 
 Публичный IPv4 сервера: 158.160.124.94
