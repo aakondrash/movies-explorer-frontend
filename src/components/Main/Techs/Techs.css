@@ -1,0 +1,127 @@
+.techs {
+  width: 100%;
+  background: #272727;
+  padding-top: 100px;
+}
+
+.techs__container {
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+.techs__description {
+  max-width: 460px;
+  text-align: center;
+  letter-spacing: -0.04em;
+  margin: 0 auto;
+  margin-top: 26px;
+}
+
+.techs__list {
+  max-width: 690px;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  margin-top: 100px;
+  padding: 0;
+  padding-bottom: 100px;
+}
+
+.techs__item {
+  height: 39px;
+  max-width: 90px;
+  width: 100%;
+  list-style-type: none;
+  background: #303030;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  letter-spacing: -0.04em;
+  color: #ffffff;
+  margin-right: 10px;
+  padding-top: 21px;
+}
+
+.techs__item:hover {
+  background: rgba(48, 48, 48, 0.6);
+  transition: background 0.3s ease;
+}
+
+.techs__item:last-of-type {
+  margin-right: 0px;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1279px) {
+  .techs {
+    padding-top: 92px;
+  }
+  .techs__container {
+    width: 86.98%;
+  }
+
+  .techs__title {
+    margin-top: 80px;
+  }
+
+  .techs__description {
+    font-size: 12px;
+    line-height: 18px;
+    margin-top: 22px;
+  }
+
+  .techs__list {
+    margin-top: 83px;
+    padding-bottom: 90px;
+  }
+
+  .techs__item {
+    max-width: 84px;
+    height: 36px;
+    font-size: 12px;
+    line-height: 15px;
+    padding-top: 21px;
+  }
+}
+
+@media screen and (min-width: 320px) and (max-width: 767px) {
+  .techs {
+    background: #202020;
+    padding-top: 31px;
+  }
+  .techs__container {
+    width: 88.75%;
+  }
+
+  .techs__title {
+    font-size: 30px;
+    line-height: 36px;
+    margin-top: 60px;
+  }
+
+  .techs__description {
+    font-size: 11px;
+    line-height: 16px;
+    margin-top: 24px;
+  }
+
+  .techs__list {
+    display: grid;
+    justify-items: center;
+    grid-template-columns: repeat(2, minmax(84px, 0.3fr));
+    row-gap: 10px;
+    column-gap: 10px;
+    margin-top: 50px;
+    padding-bottom: 70px;
+  }
+
+  .techs__item {
+    max-width: 84px;
+    height: 36px;
+    font-size: 12px;
+    line-height: 15px;
+    padding-top: 21px;
+    margin: 0;
+  }
+}

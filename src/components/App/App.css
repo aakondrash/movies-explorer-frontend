@@ -1,0 +1,9 @@
+.app {
+  font-family: "Inter", Arial, sans-serif;
+  background: #202020;
+  min-width: 320px;
+  position: relative;
+  display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
