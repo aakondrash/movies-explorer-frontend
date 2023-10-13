@@ -3,7 +3,7 @@ import "./App.css";
 import mainApi from "../../utils/MainApi";
 import moviesApi from "../../utils/MoviesApi";
 
-import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
+import { Route, Routes, useNavigate, Navigate, useLocation } from "react-router-dom";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
 import React, { useState, useEffect } from "react";
 
@@ -51,6 +51,9 @@ const App = () => {
   const [isSucceeded, setIsSucceeded] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
 
+  // Статус загрузки данных
+  const [isDataLoading, setDataIsLoading] = useState(false);
+
   const onBurgerClick = () => {
     setIsBurgerOpened(!isBurgerOpened);
   }
@@ -61,19 +64,23 @@ const App = () => {
 
   const processSearchMovieRequest = (request, isCheckboxOn) => {
     if (moviesList && moviesList.length !== 0) {
-      const searchedMovies = moviesList.filter((element) =>
+      let searchedMovies = moviesList.filter((element) =>
         element.nameRU.toLowerCase().includes(request.toLowerCase()) || 
         element.nameEN.toLowerCase().includes(request.toLowerCase())
       );
+      if (isCheckboxOn) {
+        searchedMovies = searchedMovies.filter((element) => element.duration <= 40);
+      }
       if (searchedMovies.length === 0) {
         setIsSucceeded(false);
+        setFoundMoviesList(searchedMovies);
         setPopupMessage(`По ключевому слову "${request}" фильмов не найдено`);
         setIsPopupOpened(true);
+        localStorage.setItem("requestText", request);
       } else {
         setCheckboxState(false);
         localStorage.setItem("requestText", request);
         localStorage.setItem("searchedMovies", JSON.stringify(searchedMovies));
-        localStorage.setItem("checkboxState", JSON.stringify(isCheckboxOn));
         setFoundMoviesList(searchedMovies);
       }
       return;
@@ -86,10 +93,15 @@ const App = () => {
           element.nameRU.toLowerCase().includes(request.toLowerCase()) ||
           element.nameEN.toLowerCase().includes(request.toLowerCase())
         );
+        if (isCheckboxOn) {
+          searchedMovies = searchedMovies.filter((element) => element.duration <= 40);
+        }
         if (searchedMovies.length === 0) {
           setIsSucceeded(false);
+          setFoundMoviesList(searchedMovies);
           setPopupMessage(`По ключевому слову "${request}" фильмов не найдено`);
           setIsPopupOpened(true);
+          localStorage.setItem("requestText", request);
         } else {
           setCheckboxState(false);
           localStorage.setItem("moviesList", JSON.stringify(result));
@@ -107,18 +119,26 @@ const App = () => {
 
   const processSearchSavedMovieRequest = (request, isCheckboxOn) => {
     setPreloaderDisplayState(true);
-    const searchedSavedMovies = savedMoviesList.filter((element) =>
+    let searchedSavedMovies = savedMoviesListInit.filter((element) =>
       element.nameRU.toLowerCase().includes(request.toLowerCase()) ||
       element.nameEN.toLowerCase().includes(request.toLowerCase())
     );
+    if (isCheckboxOn) {
+      searchedSavedMovies = searchedSavedMovies.filter((element) => element.duration <= 40);
+    }
     if (searchedSavedMovies.length === 0) {
       setIsPopupOpened(true);
       setPopupMessage("По вашему запросу ничего не найдено.");
       setIsSucceeded(false);
       setPreloaderDisplayState(false);
+      localStorage.setItem("requestTextSaved", request);
+      setSavedMoviesList(searchedSavedMovies);
+      localStorage.setItem("checkboxStateMoviesSaved", JSON.stringify(isCheckboxOn));
     } else {
       setCheckboxState(false);
-      localStorage.setItem("checkboxStateSavedMovies", JSON.stringify(isCheckboxOn));
+      localStorage.setItem("requestTextSaved", request);
+      localStorage.setItem("searchedMoviesSaved", searchedSavedMovies);
+      localStorage.setItem("checkboxStateMoviesSaved", JSON.stringify(isCheckboxOn));
       setSavedMoviesList(searchedSavedMovies);
       setPreloaderDisplayState(false);
     }
@@ -129,16 +149,39 @@ const App = () => {
     let filteredMoviesList = movies;
     if (isCheckboxOn && movies) {
       filteredMoviesList = movies.filter((element) => element.duration <= 40);
+      setFoundMoviesList(filteredMoviesList);
+      localStorage.setItem("checkboxState", JSON.stringify(isCheckboxOn));
+      if (typeof filteredMoviesList === 'undefined' || filteredMoviesList.length === 0) {
+        setIsPopupOpened(true);
+        setPopupMessage("По вашему запросу ничего не найдено.");
+        setIsSucceeded(false);
+      } else {
+        setIsSucceeded(true);
+      }
+    } else {
+      localStorage.setItem("checkboxState", JSON.stringify(isCheckboxOn));
+      setFoundMoviesList(movies);
     }
-    setFoundMoviesList(filteredMoviesList);
-    localStorage.setItem("checkboxState", JSON.stringify(isCheckboxOn));
   };
 
   const onChangeCheckboxStateSavedMovies = (isCheckboxOn) => {
     if (isCheckboxOn) {
-      setSavedMoviesList(savedMoviesList.filter((element) => element.duration <= 40));
+      const filteredMoviesList = savedMoviesList.filter((element) => element.duration <= 40);
+      setSavedMoviesList(filteredMoviesList);
+      if (typeof filteredMoviesList === 'undefined' || filteredMoviesList.length === 0) {
+        setIsPopupOpened(true);
+        setPopupMessage("По вашему запросу ничего не найдено.");
+        setIsSucceeded(false);
+      } else {
+        setIsSucceeded(true);
+      }
     } else if (!isCheckboxOn) {
-      setSavedMoviesList(savedMoviesListInit);
+      const requestSaved = localStorage.getItem("requestTextSaved");
+      const searchedSavedMovies = savedMoviesListInit.filter((element) =>
+        element.nameRU.toLowerCase().includes(requestSaved.toLowerCase()) ||
+        element.nameEN.toLowerCase().includes(requestSaved.toLowerCase())
+      );
+      setSavedMoviesList(searchedSavedMovies);
     }
     localStorage.setItem("checkboxStateSavedMovies", JSON.stringify(isCheckboxOn));
   }
@@ -178,6 +221,7 @@ const App = () => {
   }
 
   const handleUserRegistration = ({ name, email, password }) => {
+    setDataIsLoading(true);
     mainApi.createUser({ name, email, password }).then(() => {
       handleUserLogin({ email, password });
       navigate("/movies");
@@ -193,10 +237,11 @@ const App = () => {
         setPopupMessage("Произошла непредвиденная ошибка. Попробуйте еще раз позже.");
         setIsPopupOpened(true);
       }
-    });
+    }).finally(() => setDataIsLoading(false));
   }
 
   const handleUserLogin = ({ email, password }) => {
+    setDataIsLoading(true);
     mainApi.authorizeUser({ email, password }).then((data) => {
       if (data.token) {
         localStorage.setItem("jwt", data.token);
@@ -218,10 +263,11 @@ const App = () => {
         setPopupMessage("Произошла непредвиденная ошибка. Попробуйте еще раз позже.");
         setIsPopupOpened(true);
       }
-    });
+    }).finally(() => setDataIsLoading(false));
   }
 
   const handleUpdateUserInfo = ({ name, email }) => {
+    setDataIsLoading(true);
     mainApi.setUserData({ name, email }).then((newUserData) => {
       setCurrentUser(newUserData.data);
       setIsPopupOpened(true);
@@ -231,8 +277,9 @@ const App = () => {
     .catch((err) => {
       setIsPopupOpened(true);
       setIsSucceeded(false);
-      setPopupMessage(`Произошла ошибка: ${err}`);
-    });
+      setPopupMessage(`Произошла ошибка: ${err.status} - ${err.statusText}`);
+    })
+    .finally(() => setDataIsLoading(false));
   }
 
   const getSavedMoviesList = () => {
@@ -250,8 +297,8 @@ const App = () => {
   }
 
   const handleDeleteSavedMovie = (movie) => {
-    mainApi.deleteExistentMovie(movie.movieId).then(() => {
-      const updateUserSavedMovies = savedMoviesList.filter((mov) => mov.movieId !== movie.movieId);
+    mainApi.deleteExistentMovie(movie._id).then(() => {
+      const updateUserSavedMovies = savedMoviesList.filter((mov) => mov._id !== movie._id);
       setSavedMoviesList(updateUserSavedMovies);
       setSavedMoviesListInit(savedMoviesListInit.filter((mov) => mov._id !== movie._id));
     })
@@ -299,23 +346,23 @@ const App = () => {
             isLoggedIn ? (
               <Navigate to="/" />
             ) : (
-              <Login onLoginClick={handleUserLogin}/>
+              <Login onLoginClick={handleUserLogin} isDataLoading={isDataLoading}/>
             )
           } />
           <Route path="signup" element={
             isLoggedIn ? (
               <Navigate to="/" />
             ) : (
-              <Register onRegisterClick={handleUserRegistration}/>
+              <Register onRegisterClick={handleUserRegistration} isDataLoading={isDataLoading}/>
             )
           } />
           <Route path="profile" element={
             isLoggedIn ? (
               <>
                 <Header isLoggedIn={isLoggedIn} isBurgerOpened={isBurgerOpened} onBurgerClick={onBurgerClick}/>
-                <Profile handleUserSignout={handleUserSignout} handleUpdateUserData={handleUpdateUserInfo}/>
+                <Profile handleUserSignout={handleUserSignout} handleUpdateUserData={handleUpdateUserInfo} isDataLoading={isDataLoading}/>
               </>
-            ) : <Navigate to="/" replace/>
+            ) : () => navigate(-1)
           } />
           <Route path="movies" element={
             isLoggedIn ? (
@@ -333,7 +380,7 @@ const App = () => {
                 />
                 <Footer />
               </>
-            ) : <Navigate to="/" replace/>
+            ) : () => navigate(-1)
           } />
           <Route path="saved-movies" element={
             isLoggedIn ? (
@@ -351,7 +398,7 @@ const App = () => {
                 />
                 <Footer />
               </>
-            ) : <Navigate to="/" replace/>
+            ) : () => navigate(-1)
           } />
           <Route path="*" element={<Page404 navigate={navigate}/>} />
         </Routes>

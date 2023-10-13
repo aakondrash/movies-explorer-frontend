@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 
-const Profile = ({ handleUserSignout, handleUpdateUserData }) => {
+const Profile = ({ handleUserSignout, handleUpdateUserData, isDataLoading }) => {
   const currentUser = useContext(CurrentUserContext);
   const [isFormDisabled, setIsFormDisabled] = useState(false);
   const [formValues, setFormValues] = useState({
@@ -64,10 +64,14 @@ const Profile = ({ handleUserSignout, handleUpdateUserData }) => {
     });
   }, [currentUser]);
 
+  useEffect(() => {
+    isDataLoading ? setIsFormDisabled(true) : setIsFormDisabled(false);
+  }, [isDataLoading]);
+
   return (
     <>
       <main className="profile">
-        <h1 className="profile__title">{`Привет, ${formValues.name.text}!`}</h1>
+        <h1 className="profile__title">{`Привет, ${currentUser.name}!`}</h1>
         <div className="profile__container">
           <form
             name="edit-profile"
@@ -97,6 +101,7 @@ const Profile = ({ handleUserSignout, handleUpdateUserData }) => {
               <input
                 type="email"
                 name="email"
+                pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
                 required
                 className="profile__input"
                 placeholder="Ваша почта"
@@ -105,7 +110,7 @@ const Profile = ({ handleUserSignout, handleUpdateUserData }) => {
               />
             </label>
             <span className="profile__error-span">
-              {formValues.name.error}
+              {formValues.email.error}
             </span>
             <button
               className={`profile__edit-button ${

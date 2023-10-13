@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 
-const Register = ({ onRegisterClick }) => {
+const Register = ({ onRegisterClick, isDataLoading }) => {
   const [isFormDisabled, setIsFormDisabled] = useState(false);
   const [formValues, setFormValues] = useState({
     name: {
@@ -46,6 +46,10 @@ const Register = ({ onRegisterClick }) => {
     (formValues.name.isTextValid && formValues.email.isTextValid && formValues.password.isTextValid) ? setIsFormDisabled(false) : setIsFormDisabled(true);
   }, [formValues]);
 
+  useEffect(() => {
+    isDataLoading ? setIsFormDisabled(true) : setIsFormDisabled(false);
+  }, [isDataLoading]);
+
   return (
     <main className="register">
       <Link to="/" className="register__icon"></Link>
@@ -75,6 +79,7 @@ const Register = ({ onRegisterClick }) => {
             onChange={handleInputChange}
             name="email"
             type="email"
+            pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
             required
             placeholder="Введите email"
           />
@@ -101,7 +106,7 @@ const Register = ({ onRegisterClick }) => {
         </span>
         <button
           className={`register__submition-button ${
-            (formValues.name.isTextValid && formValues.email.isTextValid && formValues.password.isTextValid) ? "" : "register__submition-button-disabled"
+            !isFormDisabled ? "" : "register__submition-button-disabled"
           }`}
           type="submit"
           disabled={isFormDisabled}>

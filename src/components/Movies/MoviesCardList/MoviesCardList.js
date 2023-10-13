@@ -83,7 +83,7 @@ const MoviesCardList = ({ moviesList, savedMoviesList, onSaveMovie, onDeleteMovi
       </ul>
       {
         location.pathname === "/movies" ? (
-          !moviesList || (moviesToRender.length !== moviesList.length) ? (
+          !moviesList || ((moviesToRender.length !== moviesList.length) && moviesToRender.length !== 0) ? (
             <button
             className="movies-list__button"
             type="button"

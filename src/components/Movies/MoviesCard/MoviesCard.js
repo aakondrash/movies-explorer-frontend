@@ -51,9 +51,9 @@ const MoviesCard = ({ movie, savedMoviesList, handleSaveCurrentMovie, handleDele
         location.pathname === "/movies" ? (
           <img
             alt="Сохранить фильм"
-            src={!isMovieSaved ? saveIcon : savedIcon}
+            src={!savedMovie ? saveIcon : savedIcon}
             onClick={changeMovieStatus}
-            className={!isMovieSaved ? "movie__save-button" : "movie__saved-button"}
+            className={!savedMovie ? "movie__save-button" : "movie__saved-button"}
           />
         ) : (
           <img
