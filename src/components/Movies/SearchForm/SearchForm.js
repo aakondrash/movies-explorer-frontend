@@ -47,18 +47,23 @@ const SearchForm = ({ onSearch, onTickCheckbox }) => {
 
   useEffect(() => {
     if (location.pathname === "/movies") {
-      setSearchValue(localStorage.getItem("requestText"));
+      const searchValueText = localStorage.getItem("requestText");
+      setSearchValue(searchValueText);
       setCheckboxState(JSON.parse(localStorage.getItem("checkboxState")));
       setSearchError({
         errorMessage: "",
         isSearchValid: true
       });
-      onTickCheckbox(JSON.parse(localStorage.getItem("checkboxState")));
+      if (searchValueText !== null && searchValueText !== "") {
+        onTickCheckbox(JSON.parse(localStorage.getItem("checkboxState")));
+      }
     } else if (location.pathname === "/saved-movies") {
+      const searchValueSaved = localStorage.getItem("requestTextSaved");
       setCheckboxState(false);
-      localStorage.setItem("requestTextSaved", "");
-      // onTickCheckbox(JSON.parse(localStorage.getItem("checkboxStateSavedMovies")));
-      onSearch("", false);
+      if (searchValueSaved !== null && searchValueSaved !== "") {
+        onSearch("", false);
+        return;
+      }
     }
   }, [location]);
 

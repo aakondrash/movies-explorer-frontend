@@ -73,23 +73,18 @@ const App = () => {
       }
       if (searchedMovies.length === 0) {
         setIsSucceeded(false);
-        setFoundMoviesList(searchedMovies);
         setPopupMessage(`По ключевому слову "${request}" фильмов не найдено`);
         setIsPopupOpened(true);
-        localStorage.setItem("requestText", request);
-      } else {
-        setCheckboxState(false);
-        localStorage.setItem("requestText", request);
-        localStorage.setItem("searchedMovies", JSON.stringify(searchedMovies));
-        setFoundMoviesList(searchedMovies);
       }
+      setFoundMoviesList(searchedMovies);
+      localStorage.setItem("requestText", request);
+      localStorage.setItem("searchedMovies", JSON.stringify(searchedMovies));
+      localStorage.setItem("checkboxState", JSON.stringify(isCheckboxOn));
       return;
     } else {
       setPreloaderDisplayState(true);
-      moviesApi
-      .getAllMovies()
-      .then((result) => {
-        const searchedMovies = result.filter((element) =>
+      moviesApi.getAllMovies().then((result) => {
+        let searchedMovies = result.filter((element) =>
           element.nameRU.toLowerCase().includes(request.toLowerCase()) ||
           element.nameEN.toLowerCase().includes(request.toLowerCase())
         );
@@ -98,19 +93,15 @@ const App = () => {
         }
         if (searchedMovies.length === 0) {
           setIsSucceeded(false);
-          setFoundMoviesList(searchedMovies);
           setPopupMessage(`По ключевому слову "${request}" фильмов не найдено`);
           setIsPopupOpened(true);
-          localStorage.setItem("requestText", request);
-        } else {
-          setCheckboxState(false);
-          localStorage.setItem("moviesList", JSON.stringify(result));
-          setMoviesList(result);
-          localStorage.setItem("requestText", request);
-          localStorage.setItem("searchedMovies", JSON.stringify(searchedMovies));
-          localStorage.setItem("checkboxState", JSON.stringify(isCheckboxOn));
-          setFoundMoviesList(searchedMovies);
-        }
+        } 
+        setFoundMoviesList(searchedMovies);
+        setMoviesList(result);
+        localStorage.setItem("requestText", request);
+        localStorage.setItem("searchedMovies", JSON.stringify(searchedMovies));
+        localStorage.setItem("checkboxState", JSON.stringify(isCheckboxOn));
+        localStorage.setItem("moviesList", JSON.stringify(result));
     })
     .catch((err) => console.log(err))
     .finally(() => setPreloaderDisplayState(false));
@@ -130,60 +121,31 @@ const App = () => {
       setIsPopupOpened(true);
       setPopupMessage("По вашему запросу ничего не найдено.");
       setIsSucceeded(false);
-      setPreloaderDisplayState(false);
-      localStorage.setItem("requestTextSaved", request);
-      setSavedMoviesList(searchedSavedMovies);
-      localStorage.setItem("checkboxStateMoviesSaved", JSON.stringify(isCheckboxOn));
-    } else {
-      setCheckboxState(false);
-      localStorage.setItem("requestTextSaved", request);
-      localStorage.setItem("searchedMoviesSaved", searchedSavedMovies);
-      localStorage.setItem("checkboxStateMoviesSaved", JSON.stringify(isCheckboxOn));
-      setSavedMoviesList(searchedSavedMovies);
-      setPreloaderDisplayState(false);
     }
+    setPreloaderDisplayState(false);
+    setSavedMoviesList(searchedSavedMovies);
+    localStorage.setItem("requestTextSaved", request);
+    localStorage.setItem("searchedMoviesSaved", searchedSavedMovies);
+    localStorage.setItem("checkboxStateMoviesSaved", JSON.stringify(isCheckboxOn));
   }
 
   const onChangeCheckboxState = (isCheckboxOn) => {
-    const movies = JSON.parse(localStorage.getItem("searchedMovies"));
-    let filteredMoviesList = movies;
-    if (isCheckboxOn && movies) {
-      filteredMoviesList = movies.filter((element) => element.duration <= 40);
-      setFoundMoviesList(filteredMoviesList);
-      localStorage.setItem("checkboxState", JSON.stringify(isCheckboxOn));
-      if (typeof filteredMoviesList === 'undefined' || filteredMoviesList.length === 0) {
-        setIsPopupOpened(true);
-        setPopupMessage("По вашему запросу ничего не найдено.");
-        setIsSucceeded(false);
-      } else {
-        setIsSucceeded(true);
-      }
-    } else {
-      localStorage.setItem("checkboxState", JSON.stringify(isCheckboxOn));
-      setFoundMoviesList(movies);
+    let request = localStorage.getItem("requestText");
+    if (request == null) {
+      localStorage.setItem("requestText", "");
+      request = ""
     }
+    processSearchMovieRequest(request, isCheckboxOn);
   };
 
   const onChangeCheckboxStateSavedMovies = (isCheckboxOn) => {
-    if (isCheckboxOn) {
-      const filteredMoviesList = savedMoviesList.filter((element) => element.duration <= 40);
-      setSavedMoviesList(filteredMoviesList);
-      if (typeof filteredMoviesList === 'undefined' || filteredMoviesList.length === 0) {
-        setIsPopupOpened(true);
-        setPopupMessage("По вашему запросу ничего не найдено.");
-        setIsSucceeded(false);
-      } else {
-        setIsSucceeded(true);
-      }
-    } else if (!isCheckboxOn) {
-      const requestSaved = localStorage.getItem("requestTextSaved");
-      const searchedSavedMovies = savedMoviesListInit.filter((element) =>
-        element.nameRU.toLowerCase().includes(requestSaved.toLowerCase()) ||
-        element.nameEN.toLowerCase().includes(requestSaved.toLowerCase())
-      );
-      setSavedMoviesList(searchedSavedMovies);
+    let request = localStorage.getItem("requestTextSaved");
+    if (request == null) {
+      localStorage.setItem("requestTextSaved", "");
+      request = ""
     }
-    localStorage.setItem("checkboxStateSavedMovies", JSON.stringify(isCheckboxOn));
+    const requestSaved = localStorage.getItem("requestTextSaved");
+    processSearchSavedMovieRequest(requestSaved, isCheckboxOn);
   }
 
   const handleUserSignout = () => {
@@ -314,11 +276,15 @@ const App = () => {
   }
 
   useEffect(() => { 
-    Promise.all([moviesApi.getAllMovies()])
+    if (!localStorage.getItem("moviesList")) {
+      Promise.all([moviesApi.getAllMovies()])
       .then(([movies]) => {
         setMoviesList(movies);
       })
       .catch((err) => console.log(err));
+    } else {
+      setMoviesList(JSON.parse(localStorage.getItem("moviesList")));
+    }
   }, []); 
 
   useEffect(() => {
