@@ -108,9 +108,9 @@ const App = () => {
     }
   };
 
-  const processSearchSavedMovieRequest = (request, isCheckboxOn) => {
+  const processSearchSavedMovieRequest = (request, isCheckboxOn, listOfSavedMovies = savedMoviesListInit) => {
     setPreloaderDisplayState(true);
-    let searchedSavedMovies = savedMoviesListInit.filter((element) =>
+    let searchedSavedMovies = listOfSavedMovies.filter((element) =>
       element.nameRU.toLowerCase().includes(request.toLowerCase()) ||
       element.nameEN.toLowerCase().includes(request.toLowerCase())
     );
@@ -263,6 +263,11 @@ const App = () => {
       const updateUserSavedMovies = savedMoviesList.filter((mov) => mov._id !== movie._id);
       setSavedMoviesList(updateUserSavedMovies);
       setSavedMoviesListInit(savedMoviesListInit.filter((mov) => mov._id !== movie._id));
+      if (updateUserSavedMovies.length === 0) {
+        const requestSaved = localStorage.getItem("requestTextSaved");
+        const requestCheckboxState = localStorage.getItem("checkboxStateMoviesSaved");
+        processSearchSavedMovieRequest(requestSaved, requestCheckboxState, updateUserSavedMovies);
+      }
     })
     .catch((err) => console.log(err));
   }
