@@ -58,12 +58,7 @@ const SearchForm = ({ onSearch, onTickCheckbox }) => {
         onTickCheckbox(JSON.parse(localStorage.getItem("checkboxState")));
       }
     } else if (location.pathname === "/saved-movies") {
-      const searchValueSaved = localStorage.getItem("requestTextSaved");
       setCheckboxState(false);
-      if (searchValueSaved !== null && searchValueSaved !== "") {
-        onSearch("", false);
-        return;
-      }
     }
   }, [location]);
 

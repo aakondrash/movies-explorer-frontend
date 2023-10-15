@@ -119,7 +119,7 @@ const App = () => {
     }
     if (searchedSavedMovies.length === 0) {
       setIsPopupOpened(true);
-      setPopupMessage("По вашему запросу ничего не найдено.");
+      setPopupMessage(`По ключевому слову "${request}" фильмов не найдено`);
       setIsSucceeded(false);
     }
     setPreloaderDisplayState(false);
